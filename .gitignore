@@ -86,3 +86,4 @@ typings/
 dist/
 dist-ssr/
 *.local
+.vercel
