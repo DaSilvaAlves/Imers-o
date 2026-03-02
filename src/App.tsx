@@ -1,4 +1,4 @@
-import './styles/theme.css'
+import './index.css'
 import { MissionDashboard } from './features/MissionDashboard'
 import { ArchitectStation } from './features/ArchitectStation'
 import { UXStation } from './features/UXStation'
