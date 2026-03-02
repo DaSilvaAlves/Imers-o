@@ -1,9 +1,8 @@
-import './index.css'
+import './styles/theme.css'
 import { MissionDashboard } from './features/MissionDashboard'
 import { ArchitectStation } from './features/ArchitectStation'
 import { UXStation } from './features/UXStation'
 import { DataStation } from './features/DataStation'
-import { RefinementStation } from './features/RefinementStation'
 import { PMStation } from './features/PMStation'
 import { DevOpsStation } from './features/DevOpsStation'
 import { useProject } from './context/ProjectContext'
@@ -21,8 +20,6 @@ function App() {
         return <UXStation />
       case 'data':
         return <DataStation />
-      case 'refinement':
-        return <RefinementStation />
       case 'pm':
         return <PMStation />
       case 'devops':

@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { supabase } from '../api/supabase';
 
-export type MissionId = 'analyst' | 'architect' | 'ux' | 'data' | 'refinement' | 'pm' | 'po' | 'sm' | 'dev' | 'qa' | 'devops';
+export type MissionId = 'analyst' | 'architect' | 'ux' | 'data' | 'pm' | 'po' | 'sm' | 'dev' | 'qa' | 'devops';
 
 interface ProjectState {
   currentMission: MissionId;
@@ -18,7 +17,6 @@ interface ProjectContextType {
   setMission: (id: MissionId) => void;
   updateState: (updates: Partial<ProjectState>) => void;
   resetProject: () => void;
-  loadProjectFromCloud: (githubUrl: string) => Promise<void>;
 }
 
 const INITIAL_STATE: ProjectState = {
@@ -47,36 +45,8 @@ export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({ child
     localStorage.setItem('ai_velocity_state', JSON.stringify(state));
   }, [state]);
 
-  useEffect(() => {
-    const syncWithSupabase = async () => {
-      if (!state.githubUrl) return;
-
-      const { error } = await supabase
-        .from('projects')
-        .upsert({ 
-          id: state.githubUrl, 
-          github_url: state.githubUrl,
-          project_name: state.projectName,
-          refined_path: state.refinedPath,
-          current_mission: state.currentMission,
-          progress: state.progress,
-          is_complete: state.isComplete,
-          artifacts: state.artifacts,
-          state: state,
-          updated_at: new Date().toISOString()
-        });
-      
-      if (error) {
-        console.error('Supabase Sync Error:', error.message);
-      }
-    };
-
-    const timeoutId = setTimeout(syncWithSupabase, 1000);
-    return () => clearTimeout(timeoutId);
-  }, [state]);
-
   const setMission = (id: MissionId) => {
-    const missionOrder: MissionId[] = ['analyst', 'architect', 'ux', 'data', 'refinement', 'pm', 'po', 'sm', 'dev', 'qa', 'devops'];
+    const missionOrder: MissionId[] = ['analyst', 'architect', 'ux', 'data', 'pm', 'po', 'sm', 'dev', 'qa', 'devops'];
     const index = missionOrder.indexOf(id);
     setState(prev => ({ 
       ...prev, 
@@ -94,25 +64,8 @@ export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({ child
     localStorage.removeItem('ai_velocity_state');
   };
 
-  const loadProjectFromCloud = async (githubUrl: string) => {
-    const { data, error } = await supabase
-      .from('projects')
-      .select('state')
-      .eq('id', githubUrl)
-      .single();
-
-    if (error) {
-      console.warn('Could not load project from cloud:', error.message);
-      return;
-    }
-
-    if (data && data.state) {
-      setState(data.state as ProjectState);
-    }
-  };
-
   return (
-    <ProjectContext.Provider value={{ state, setMission, updateState, resetProject, loadProjectFromCloud }}>
+    <ProjectContext.Provider value={{ state, setMission, updateState, resetProject }}>
       {children}
     </ProjectContext.Provider>
   );

@@ -100,11 +100,11 @@ export const DataStation: React.FC = () => {
                 As tabelas e a bridge de ligação foram materializadas. O projeto está agora pronto para a gestão de produto.
               </p>
               <button 
-                onClick={() => setMission('refinement')}
+                onClick={() => setMission('pm')}
                 className="brutal-btn"
                 style={{ width: '100%', background: 'var(--neon-green)', color: '#000', padding: '20px', fontWeight: 900 }}
               >
-                PRÓXIMA MISSÃO: AGENTES DE REFINAÇÃO <ArrowRight size={20} style={{ verticalAlign: 'middle', marginLeft: '10px' }} />
+                PRÓXIMA MISSÃO: PRODUCT MANAGER <ArrowRight size={20} style={{ verticalAlign: 'middle', marginLeft: '10px' }} />
               </button>
             </div>
           )}
