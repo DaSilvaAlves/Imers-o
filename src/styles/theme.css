@@ -1,59 +1,164 @@
+/* ================================================================
+   AI VELOCITY DASHBOARD — Brutalista Design System
+   Imersão IA Portugal | Stack: React 19 + Vite + TypeScript
+   Consistente com: prompt-optimizer, community-dashboard, starter-builder
+   ================================================================ */
+
 :root {
-  --neon-green: #00FF00;
-  --matrix-black: #050505;
-  --indigo-accent: #6366F1;
-  --pink-punch: #EC4899;
-  --text-main: #FFFFFF;
-  --text-muted: #888888;
-  --brutal-border: 4px solid #000000;
-  --brutal-shadow: 10px 10px 0px #000000;
+  /* Core palette — idêntico ao ecossistema */
+  --color-bg:           #0a0a0a;
+  --color-surface:      #141414;
+  --color-surface-2:    #1a1a1a;
+  --color-border:       #333333;
+  --color-border-light: #555555;
+  --color-accent:       #EEFF00;
+  --color-accent-dim:   rgba(238, 255, 0, 0.12);
+  --color-text:         #ffffff;
+  --color-text-muted:   #a0a0a0;
+  --color-success:      #4ade80;
+  --color-error:        #ef4444;
+  --color-warning:      #eab308;
+
+  --font:      'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --radius:    0px;
+  --shadow:    4px 4px 0px rgba(0, 0, 0, 0.8);
+  --shadow-lg: 8px 8px 0px rgba(0, 0, 0, 0.8);
+  --transition: 0.1s ease;
+
+  /* Aliases de retrocompatibilidade — mantêm inline styles a funcionar */
+  --neon-green:    var(--color-accent);
+  --matrix-black:  var(--color-bg);
+  --indigo-accent: #6366f1;
+  --pink-punch:    #ec4899;
+  --text-main:     var(--color-text);
+  --text-muted:    var(--color-text-muted);
+  --brutal-border: 2px solid var(--color-border);
+  --brutal-shadow: var(--shadow);
 }
 
-body {
-  background-color: var(--matrix-black);
-  color: var(--text-main);
-  font-family: 'Inter', 'JetBrains Mono', monospace;
-  margin: 0;
-  padding: 0;
-  line-height: 1.6;
-}
-
+/* ----------------------------------------------------------------
+   Layout containers
+   ---------------------------------------------------------------- */
 .main-container {
   max-width: 1200px;
   margin: 0 auto;
 }
 
+/* ----------------------------------------------------------------
+   Typography
+   ---------------------------------------------------------------- */
+.title-hero {
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  margin: 0;
+  font-family: var(--font);
+}
+
+/* ----------------------------------------------------------------
+   Cards
+   ---------------------------------------------------------------- */
 .brutal-card {
-  border: var(--brutal-border);
-  padding: 30px;
-  background: #FFFFFF;
-  color: #000000;
-  box-shadow: var(--brutal-shadow);
-  transition: all 0.1s ease;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  padding: 28px;
+  box-shadow: var(--shadow);
   position: relative;
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
 .brutal-card:hover {
-  transform: translate(-4px, -4px);
-  box-shadow: 14px 14px 0px var(--neon-green);
+  border-color: var(--color-border-light);
 }
 
+/* ----------------------------------------------------------------
+   Buttons
+   ---------------------------------------------------------------- */
+.brutal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: var(--color-accent);
+  color: #000000;
+  border: 2px solid #000000;
+  font-family: var(--font);
+  font-size: 0.85rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: all var(--transition);
+}
+
+.brutal-btn:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.8);
+}
+
+.brutal-btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8);
+}
+
+.brutal-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ----------------------------------------------------------------
+   Badges
+   ---------------------------------------------------------------- */
 .badge {
-  display: inline-block;
-  padding: 5px 10px;
-  background: var(--neon-green);
-  color: #000;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  background: var(--color-accent);
+  color: #000000;
   font-weight: 900;
+  font-size: 0.65rem;
   text-transform: uppercase;
-  font-size: 0.6rem;
-  margin-bottom: 15px;
+  letter-spacing: 0.1em;
+  border: 1.5px solid #000000;
 }
 
-.title-hero {
-  font-size: 5rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -2px;
-  line-height: 0.9;
-  margin: 0;
+/* ----------------------------------------------------------------
+   Animations
+   ---------------------------------------------------------------- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.2s ease forwards;
+}
+
+/* ----------------------------------------------------------------
+   Form elements
+   ---------------------------------------------------------------- */
+input[type="text"],
+input[type="url"] {
+  font-family: var(--font);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  color: var(--color-text);
+  transition: border-color var(--transition);
+}
+
+input[type="text"]:focus,
+input[type="url"]:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+input[type="text"]::placeholder,
+input[type="url"]::placeholder {
+  color: var(--color-text-muted);
 }
