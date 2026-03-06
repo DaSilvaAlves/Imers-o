@@ -8,7 +8,7 @@ export const DevOpsStation: React.FC = () => {
   const [isConfirmed, setIsConfirmed] = useState(!!state.artifacts?.deployUrl)
   const [copied, setCopied] = useState(false)
 
-  const vercelImportUrl = `https://vercel.com/new/clone?repository-url=${encodeURIComponent(state.githubUrl)}`
+  const vercelImportUrl = `https://vercel.com/import/git?s=${encodeURIComponent(state.githubUrl)}`
 
   const handleOpenVercel = () => {
     window.open(vercelImportUrl, '_blank')
