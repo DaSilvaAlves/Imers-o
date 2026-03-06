@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import './styles/theme.css'
 import { MissionDashboard } from './features/MissionDashboard'
 import { ArchitectStation } from './features/ArchitectStation'
@@ -8,7 +9,18 @@ import { DevOpsStation } from './features/DevOpsStation'
 import { useProject } from './context/ProjectContext'
 
 function App() {
-  const { state, resetProject } = useProject()
+  const { state, updateState, resetProject } = useProject()
+
+  // Read ?repo= URL param on first load and pre-fill context
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const repoParam = params.get('repo')
+    if (repoParam) {
+      const decoded = decodeURIComponent(repoParam)
+      const projectName = decoded.split('/').pop()?.replace('.git', '') || 'meu-projeto'
+      updateState({ githubUrl: decoded, projectName, currentMission: 'analyst', isComplete: false })
+    }
+  }, [])
 
   const renderActiveMission = () => {
     switch (state.currentMission) {
