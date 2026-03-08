@@ -115,14 +115,47 @@ app.post('/api/ai/refactor', async (req, res) => {
 });
 
 app.post('/api/deploy/vercel', async (req, res) => {
-  const { refinedPath } = req.body;
+  const { refinedPath, projectName } = req.body;
   try {
+    // 1. Garantir que o vercel.json existe (resolve tela preta em projetos Vite)
+    const vercelJson = path.join(refinedPath, 'vercel.json');
+    if (!fs.existsSync(vercelJson)) {
+      fs.writeFileSync(vercelJson, JSON.stringify({
+        buildCommand: "npm run build",
+        outputDirectory: "dist",
+        framework: "vite",
+        rewrites: [{ source: "/(.*)", destination: "/index.html" }]
+      }, null, 2));
+      console.log(`> [ATLAS] vercel.json criado para projecto Vite`);
+    }
+
+    // 2. Instalar dependências se necessário
+    const nodeModules = path.join(refinedPath, 'node_modules');
+    if (!fs.existsSync(nodeModules)) {
+      console.log(`> [ATLAS] A instalar dependências...`);
+      execSync(`npm install`, { encoding: 'utf8', cwd: refinedPath, timeout: 120000, stdio: 'pipe' });
+    }
+
+    // 3. Deploy com nome correcto e captura de erro real
+    const nameFlag = projectName ? `--name ${projectName.replace(/\s+/g, '-').toLowerCase()}` : '';
     console.log(`> [ATLAS] Deploy Vercel: ${refinedPath}`);
-    const output = execSync(`vercel --yes --prod`, { encoding: 'utf8', cwd: refinedPath });
-    const urlMatch = output.match(/https:\/\/[a-z0-9-]+\.vercel\.app/i);
-    res.json({ success: true, url: urlMatch ? urlMatch[0] : "Check Vercel Dashboard" });
+    const output = execSync(
+      `vercel --yes --prod ${nameFlag}`,
+      { encoding: 'utf8', cwd: refinedPath, timeout: 180000, stdio: 'pipe' }
+    );
+
+    console.log(`> [ATLAS] Output Vercel:\n${output}`);
+
+    // 4. Extrair URL de produção (última URL no output — é sempre a de prod)
+    const todasUrls = [...output.matchAll(/https:\/\/[^\s]+\.vercel\.app/gi)].map(m => m[0]);
+    const url = todasUrls[todasUrls.length - 1] || "Verifica o Dashboard Vercel";
+
+    res.json({ success: true, url, log: output.slice(-500) });
   } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    // Captura o erro real do Vercel (estava a ser perdido antes)
+    const erroReal = err.stderr || err.stdout || err.message || 'Erro desconhecido';
+    console.error(`> [ATLAS] ERRO DEPLOY:\n${erroReal}`);
+    res.status(500).json({ success: false, error: erroReal.slice(-800) });
   }
 });
 
