@@ -1,21 +1,38 @@
+/* ================================================================
+   AI VELOCITY DASHBOARD — [IA]AVANCADA PT Design System
+   Imersão IA Portugal
+   ================================================================ */
+
 :root {
-  --neon-green: #00FF41;
-  --matrix-black: #050505;
-  --indigo-accent: #6366F1;
-  --brutal-border: 4px solid #000;
-  --brutal-shadow: 10px 10px 0px #000;
+  /* ── [IA]AVANCADA PT Palette ── */
+  --bg:         #04040A;
+  --white:      #F0F4FF;
+  --cyan:       #00F5FF;
+  --gold:       #FFB800;
+  --purple:     #9D00FF;
+  --magenta:    #FF006E;
+  --lime:       #39FF14;
+  --grey:       #8892A4;
+  --grey2:      #4A5568;
+
+  --card-bg:     rgba(255,255,255,0.025);
+  --card-border: rgba(255,255,255,0.08);
+  --glass-blur:  blur(12px);
+
+  /* Legacy aliases for inline styles */
+  --neon-green:    var(--cyan);
+  --matrix-black:  var(--bg);
+  --indigo-accent: var(--purple);
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  background-color: var(--matrix-black);
-  color: #fff;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background-color: var(--bg);
+  color: var(--white);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.8;
 }
 
 .main-container {
@@ -24,26 +41,30 @@ body {
 }
 
 .title-hero {
-  font-size: 4rem;
+  font-size: clamp(2rem, 6vw, 3.5rem);
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: -2px;
+  letter-spacing: -0.03em;
 }
 
 .badge {
   display: inline-block;
-  padding: 4px 12px;
-  font-size: 0.7rem;
-  font-weight: 900;
+  padding: 6px 16px;
+  font-size: 0.65rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  background: #1a1a1a;
-  border: 1px solid #333;
+  letter-spacing: 0.1em;
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
 }
 
 .brutal-card {
-  background: #0a0a0a;
-  border: 2px solid #222;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  backdrop-filter: var(--glass-blur);
   padding: 32px;
 }
 
@@ -51,27 +72,27 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 28px;
-  font-weight: 900;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  padding: 0.65rem 1.4rem;
+  font-weight: 700;
+  font-size: 0.875rem;
   cursor: pointer;
   border: none;
-  transition: opacity 0.15s;
+  border-radius: 6px;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .brutal-btn:hover {
-  opacity: 0.85;
+  transform: translateY(-1px);
 }
 
 .brutal-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+  transform: none;
 }
 
 .fade-in {
-  animation: fadeIn 0.4s ease;
+  animation: fadeIn 0.4s ease-out;
 }
 
 @keyframes fadeIn {

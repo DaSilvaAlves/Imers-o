@@ -55,10 +55,10 @@ export const MissionDashboard: React.FC = () => {
   }
 
   return (
-    <div className="mission-dashboard" style={{ color: '#fff' }}>
+    <div className="mission-dashboard" style={{ color: 'var(--white)' }}>
       
-      <section className="brutal-card" style={{ marginBottom: '40px', background: '#000', border: '4px solid var(--neon-green)' }}>
-        <h2 style={{ margin: '0 0 20px 0', textTransform: 'uppercase' }}><Terminal size={28} /> Fábrica de Refinação Real</h2>
+      <section className="brutal-card" style={{ marginBottom: '40px', border: '1px solid rgba(0,245,255,0.15)' }}>
+        <h2 style={{ margin: '0 0 20px 0', fontWeight: 800, fontSize: '1.15rem', display: 'flex', alignItems: 'center', gap: '10px' }}><Terminal size={22} /> Fabrica de Refinacao Real</h2>
         
         <div style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
           <input 
@@ -66,32 +66,32 @@ export const MissionDashboard: React.FC = () => {
             placeholder="URL DO GITHUB DO ALUNO" 
             value={githubUrl}
             onChange={(e) => setGithubUrl(e.target.value)}
-            style={{ flex: 1, padding: '20px', background: '#050505', border: '1px solid #333', color: 'var(--neon-green)', fontFamily: 'monospace' }}
+            style={{ flex: 1, padding: '16px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', color: 'var(--white)', fontFamily: "'JetBrains Mono', monospace", fontSize: '0.85rem' }}
           />
           <button 
             onClick={startFullRefinement} 
             disabled={isRefining} 
             className="brutal-btn"
-            style={{ padding: '0 40px', background: 'var(--neon-green)', color: '#000', fontWeight: 900 }}
+            style={{ padding: '0.65rem 1.4rem', background: 'var(--cyan)', color: '#04040A', fontWeight: 700, boxShadow: '0 0 20px rgba(0,245,255,0.4)', borderRadius: '6px' }}
           >
             {isRefining ? 'A PROCESSAR NO DISCO...' : 'REFINAR CÓDIGO AGORA 🚀'}
           </button>
         </div>
 
-        <div style={{ background: '#050505', padding: '20px', border: '1px solid #222', fontFamily: 'monospace', fontSize: '0.75rem', color: '#4ade80', minHeight: '150px' }}>
+        <div style={{ background: 'rgba(4,4,10,0.8)', padding: '20px', border: '1px solid rgba(0,245,255,0.15)', borderRadius: '8px', fontFamily: "'JetBrains Mono', monospace", fontSize: '0.75rem', color: 'var(--lime)', minHeight: '150px' }}>
           {log.map((line, i) => <div key={i} style={{ marginBottom: '5px' }}>{line}</div>)}
-          {isRefining && <div className="animate-spin" style={{ width: '20px', height: '20px', border: '2px solid #4ade80', borderTopColor: 'transparent', borderRadius: '50%' }}></div>}
+          {isRefining && <div style={{ width: '20px', height: '20px', border: '2px solid rgba(0,245,255,0.3)', borderTopColor: 'var(--cyan)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>}
         </div>
 
         {state.refinedPath && (
-          <div style={{ marginTop: '30px', padding: '30px', background: 'var(--indigo-accent)', color: '#fff', textAlign: 'center' }}>
+          <div style={{ marginTop: '30px', padding: '30px', background: 'linear-gradient(135deg, rgba(157,0,255,0.12), rgba(0,245,255,0.08))', border: '1px solid rgba(157,0,255,0.15)', borderRadius: '12px', color: 'var(--white)', textAlign: 'center' }}>
             <h3 style={{ margin: '0 0 10px 0' }}>🚀 PROJETO PRONTO NO TEU DISCO!</h3>
             <p style={{ fontSize: '0.8rem', marginBottom: '20px' }}>O caminho físico é: <strong>{state.refinedPath}</strong></p>
             
             <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
               <button 
                 className="brutal-btn" 
-                style={{ background: '#fff', color: '#000', padding: '15px 30px' }}
+                style={{ background: 'transparent', color: 'var(--white)', padding: '0.65rem 1.4rem', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '6px' }}
                 onClick={() => alert(`Copia este caminho e abre no VS Code:\n${state.refinedPath}`)}
               >
                 <FolderOpen size={18} style={{ verticalAlign: 'middle', marginRight: '10px' }} /> ABRIR PASTA
@@ -99,7 +99,7 @@ export const MissionDashboard: React.FC = () => {
 
               <button 
                 className="brutal-btn" 
-                style={{ background: 'var(--neon-green)', color: '#000', padding: '15px 30px' }}
+                style={{ background: 'var(--cyan)', color: '#04040A', padding: '0.65rem 1.4rem', boxShadow: '0 0 20px rgba(0,245,255,0.4)', borderRadius: '6px' }}
                 onClick={() => setMission('architect')}
               >
                 PRÓXIMA MISSÃO: ARQUITETO <ArrowRight size={18} style={{ verticalAlign: 'middle', marginLeft: '10px' }} />
